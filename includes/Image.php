@@ -59,7 +59,7 @@ if(isset($request->watermark)&& isset($request->ids) && isset($request->chId))
             imagecopyresampled($image, $watermark, $posX , $posY , 0 , 0 , $src_w , $src_h, imagesx($watermark), imagesy($watermark));
         
             // header('Content-Type: image/png');
-             imagepng($image, $path.$i.".png");
+            imagepng($image, $path."default,".$i.".png");
             imagedestroy($image);
            
         }
