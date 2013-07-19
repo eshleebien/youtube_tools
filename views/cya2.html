@@ -1,0 +1,79 @@
+<div id="section-post">
+
+    
+    <article id ="resultVideos" style = "display:none;">
+        <center><h2>Choose your videos</h2>
+        Search:
+        <input type="search" size = '90px' ng-model="search.snippet.title" placeholder="Search">
+        
+
+        <br/>
+        <div id = 'progress'>
+            {{progress}}
+        </div>
+        <br/>
+        <center><button ng-click="selectAll();" ng-show="viewControl">{{selectState}}</button></center>
+        <ul id = "post-list">
+            <li id = "post-box" ng-repeat="video in filteredVideo = ((videos | filter:search.snippet.title) | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'video.title')"
+                >
+                <div id="post-selected_{{video.toggle}}">
+                    <div ng-click ="(video.toggle == undefined)?(video.toggle=1):(video.toggle=undefined);toggleCheckbox('{{video.snippet.resourceId.videoId}}');">
+                        <center><a id = 'ylink' href =""><img id = "img-video" ng-src ="{{video.snippet.thumbnails.default.url}}"/></a></center>
+                        <center><a id = 'ylink' target='_blank' href = ''>{{video.snippet.title}}</a><br/><b>Published At:</b> {{video.snippet.publishedAt}} </center>
+                    </div>
+                   <center><div id = "timeDiv" style ="display:none"><abbr title="start">st</abbr>&nbsp;<input type ='text'size=2/>&nbsp;-&nbsp;<input type ='text' size=2/></div></center>
+                </div>
+            </li>
+        </ul>
+        <br/><br/>
+        <table cellspacing='0' cellpadding='0' ng-show="viewControl">
+            <tr>
+                <td><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                    Previous
+                </button> {{currentPage+1}}/{{numberOfPages()}}
+                <button ng-disabled="currentPage >= videos.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                    Next
+                </button>
+               </td>
+               <td >Selected Items : {{selected.length}}</td>
+                <td style="text-align:right">No. of items : {{filteredVideo.length}}/{{videos.length}}</td>
+            </tr>
+
+        </table>
+        </center>
+    </article>
+    
+    <article>
+        <center><form ng-upload action="includes/upload.php" > 
+            <h2>Upload watermark</h2>
+            <input id="upload" type="file" multiple="" accept = "image/*" required name="upload[]"></input>
+            <input type="submit" class="btn" value="Submit" upload-submit="process(content, completed)" />
+        </form>
+         <div id = 'progressUpload'>
+            {{progress}}
+        </div>
+        <br/>
+        <canvas id="myCanvas" width={{canvasW}} height={{canvasH}}></canvas>
+         <div id="slider"  ng-show="viewSlider">
+             <center>
+                 Size: <input id="slide" type="range" min="10" max="200" step="1" value="0" ng-model="sliderValue" ng-change="updateSliderFunc();"/></br>
+                x position:  <input id="slide" type="range" min="0" max={{maxRangeX}} step="1" value="0" ng-model="sliderValueX" ng-change="updateSliderFunc();"/> <br/>
+                y position:  <input id="slide" type="range" min="0" max={{maxRangeY}} step="1" value="0" ng-model="sliderValueY" ng-change="updateSliderFunc();"/>
+                
+             <br/>            
+             <div id = 'progressThumbnail'>
+                {{progress}}
+            </div>
+            <button ng-click="generateThumb();" ng-show="viewGenThumb">Generate Thumbnails</button>
+            </center>
+        </div>
+
+        </center>
+        
+    </article>
+    
+    <article>
+        
+    </article>
+</div>
+
